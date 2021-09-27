@@ -1,6 +1,7 @@
 # 0. Libraries ====
 library(tidyverse)
 library(dbplyr)
+library(odbc)
 library(DBI)
 library(RPostgres)
 
@@ -11,8 +12,8 @@ sql_challenge_db <- DBI::dbConnect(
   dbname = "8-Week-SQL-Challenge", 
   host = "localhost",
   port = 5432,
-  user = "postgres",
-  password = 864109688, 
+  user = getOption("user"),
+  password = getOption("password"), 
   bigint = "integer")
 
 # 1.1 Set schema
@@ -46,5 +47,4 @@ tbl(sql_challenge_db, "customer_nodes") %>%
 dbDisconnect(sql_challenge_db)
 
 # 2. Queries ====
-
 
