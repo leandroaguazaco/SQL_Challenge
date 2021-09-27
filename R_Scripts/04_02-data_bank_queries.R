@@ -12,8 +12,8 @@ sql_challenge_db <- DBI::dbConnect(
   dbname = "8-Week-SQL-Challenge", 
   host = "localhost",
   port = 5432,
-  user = getOption("user"),
-  password = getOption("password"), 
+  user = "postgres",
+  password = Sys.getenv("PostgreSQL_Password"), 
   bigint = "integer")
 
 # 1.1 Set schema
