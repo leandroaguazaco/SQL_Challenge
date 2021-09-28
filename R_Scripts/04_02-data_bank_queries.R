@@ -41,6 +41,11 @@ dbGetQuery(conn = sql_challenge_db,
 dbExecute(conn = sql_challenge_db, 
           statement = 'SET SEARCH_PATH = "04-data_bank";')
 
+# Alternative 3
+# Referencing schema inside a retrieving function like tbl()
+dbplyr::in_schema(schema = "04-data_bank", 
+                  table = "customer_nodes")
+
 # 1.2 List database tables
 
 dbListTables(sql_challenge_db)
@@ -55,6 +60,9 @@ dbListFields(conn = sql_challenge_db,
 # Not hold the data itself
 tbl(sql_challenge_db, "customer_nodes") %>% 
   head()
+
+tbl(sql_challenge_db, in_schema(schema = "04-data_bank", 
+                                table = "customer_nodes"))
 
 # 1.4 Disconnect from the database 
 
