@@ -4,10 +4,25 @@ library(dbplyr)
 library(odbc)
 library(DBI)
 library(RPostgres)
+library(RPostgreSQL)
+library(connections)
 
 # 1. Connect to and Check a PostgreSQL database ====
 
+# Alternative 1: DBI package
 sql_challenge_db <- DBI::dbConnect(
+  drv = RPostgres::Postgres(), 
+  dbname = "8-Week-SQL-Challenge", 
+  host = "localhost",
+  port = 5432,
+  user = "postgres",
+  password = Sys.getenv("PostgreSQL_Password"), 
+  bigint = "integer")
+
+# Alternative 2: connections package
+# https://rstudio.github.io/connections/
+# Integrate DBI-compliant packages with the RStudio IDE’s Connection Pane
+sql_challenge_db <- connection_open(
   drv = RPostgres::Postgres(), 
   dbname = "8-Week-SQL-Challenge", 
   host = "localhost",
