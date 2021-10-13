@@ -22,7 +22,8 @@ sql_challenge_db <- DBI::dbConnect(
   host = "localhost",
   port = 5432,
   user = "postgres",
-  password = Sys.getenv("PostgreSQL_Password"))
+  password = Sys.getenv("PostgreSQL_Password"), 
+  bigint = "integer")
 
 # Alternative 2: connections package
 # https://rstudio.github.io/connections/
@@ -76,10 +77,6 @@ dbDisconnect(sql_challenge_db)
 
 # 2. Queries ====
 
-# Question from Section B: Customer Transactions 
-# For each month - how many Data Bank customers make more than 1 deposit and 
-# either 1 purchase or 1 withdrawal in a single month?
-
 # SQL statement: SELECT * FROM regions;
 dbReadTable(sql_challenge_db, "customer_transactions")
 
@@ -97,7 +94,13 @@ tic() # Timer
 time <- toc()
 difftime <- time$toc - time$tic # Timer
 
-# 2.1 DBI package functions to run queries ====
+# 2.1 Query 1: Section B - Item 3 ====
+
+# Question from Section B: Customer Transactions 
+# For each month - how many Data Bank customers make more than 1 deposit and 
+# either 1 purchase or 1 withdrawal in a single month?
+
+# 2.1.1 DBI package functions to run queries ====
 
 # SQL syntax
 tic() # Timer 
@@ -114,7 +117,7 @@ dbGetQuery(conn = sql_challenge_db,
       BY customer_id, txn_month;")
 toc() # Timer
 
-# 2.2 dplyr package functions to run queries ====
+# 2.1.2 dplyr package functions to run queries ====
 
 tic() # Timer
 tbl(src = sql_challenge_db, 
@@ -136,7 +139,7 @@ tbl(src = sql_challenge_db,
   ungroup()
 toc() # Timer
 
-# 2.3 dtplyr (data.table) package functions to run queries ====
+# 2.1.3 dtplyr (data.table) package functions to run queries ====
 
 tic() # Timer
 tbl(src = sql_challenge_db, 
@@ -160,7 +163,7 @@ tbl(src = sql_challenge_db,
   ungroup()
 toc() # Timer
 
-# 2.4 Comparing running times ====
+# 2.1.4 Comparing running times ====
 
 tibble(dplyr = dplyr,
        dtplyr = dtplyr) %>% 
@@ -177,4 +180,29 @@ tibble(dplyr = dplyr,
     theme(legend.position = "none")
 
 
+
+
+# 2.2 Query 2: Section B - Item 4 ====
+
+# Question from Section B
+# What is the closing balance for each customer at the end of the month?
+
+tbl(src = sql_challenge_db, 
+    "customer_transactions") %>% 
+  lazy_dt() %>% 
+  mutate(txn_month = month(txn_date)) %>% 
+  relocate(txn_month, .after = txn_date) %>% 
+  group_by(customer_id, txn_month, txn_type) %>% 
+  summarize(amount = sum(txn_amount)) %>% 
+  pivot_wider(names_from = txn_type, 
+              values_from = amount, 
+              values_fill = 0) %>% 
+  dplyr::ungroup() %>% 
+  mutate(month_balance = deposit - (purchase + withdrawal)) %>% 
+  dplyr::group_by(customer_id) %>% 
+  mutate(balance = cumsum(month_balance)) %>% 
+  dplyr::ungroup() %>% 
+  #select(customer_id, txn_month, balance) %>% 
+  collect()
+  
 
