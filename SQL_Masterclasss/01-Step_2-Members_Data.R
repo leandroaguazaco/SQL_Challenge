@@ -24,7 +24,7 @@ dbExecute(conn = sql_masterclass_db,
 
 dbListTables(conn = sql_masterclass_db)
 
-# 3. Step1 - Members Data ====
+# 3. Step2 - Members Data ====
 
 # 3.1 Question 1 ====
 

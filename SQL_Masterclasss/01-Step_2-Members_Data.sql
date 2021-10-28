@@ -1,4 +1,4 @@
-/* 01-Step_1-Members_Data */
+/* 01-Step_2-Members_Data */
 
 SET SEARCH_PATH = sql_masterclass;
 
