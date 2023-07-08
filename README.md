@@ -1,5 +1,13 @@
 # 8 Week SQL Challenge
 
+<div align="left">
+
+  <img alt="Static Badge" src="https://img.shields.io/badge/active_repository-false-red">
+
+  <img alt="Static Badge" src="https://img.shields.io/badge/status-in progress-green">
+
+</div>  
+
 My "**SQL learning journey**" with PostgreSQL 13 through pgADMIN 4.2. [**The 8 Week SQL Challenge**](https://8weeksqlchallenge.com/) is brought by [**Danny Ma**](https://www.linkedin.com/in/datawithdanny/) and the [**Data With Danny**](https://www.datawithdanny.com/) virtual data apprenticeship program. Thank so much to Danny. 
 
 <p align="center">
