@@ -4,7 +4,7 @@
 
   <img alt="Static Badge" src="https://img.shields.io/badge/active_repository-false-red">
 
-  <img alt="Static Badge" src="https://img.shields.io/badge/status-in progress-green">
+  <img alt="Static Badge" src="https://img.shields.io/badge/status-finished-green">
 
 </div>  
 
